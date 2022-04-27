@@ -5,6 +5,7 @@
 
 
 '''Image Processing for Axon Imaging using DifferenceTracker
+   Automates DifferenceTracker analysis for all files in a directory and its subdirectories
    Script written in Jython
    Jakub Scaber
    7.9.2021
