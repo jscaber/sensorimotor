@@ -12,4 +12,4 @@ Written by Jakub Scaber
    - Adds tracking of particles that don't run horizontally in grooves
    - Adds additional features such as directionality to output, and divides moving particles into 'dynamic stationary' and 'moving'
 3. Randomisation script (R Script)
-   -
+   - here
