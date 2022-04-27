@@ -1,3 +1,8 @@
+# randomisation script
+# RScript by Jakub Scaber
+# Year: 2022
+# Randomises all files in a folder +/- subfolders and
+# outputs a dictionary, with options for filtering by filename and extension
 
 
 import os
