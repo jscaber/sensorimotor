@@ -16,4 +16,4 @@ Written by Jakub Scaber
      - Adds additional features such as directionality to output, and divides moving particles into 'dynamic stationary' and 'moving'
 2. rnaseq - folder containing rnaseq analysis
 3. Randomisation script (R Script)
-4. CGAT Pipeline for filtering 10X bam
+4. Pipeline for filtering 10X bam
