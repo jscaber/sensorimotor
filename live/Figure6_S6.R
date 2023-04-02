@@ -4,9 +4,9 @@ library("ggpubr")
 library("cowplot")
 library(Cairo)
 
-setwd("C:/Users/Agnieszka i Kuba/OneDrive - Nexus365/SensoriMotor Project/Live_Imaging/R Analysis")
+setwd("set here")
 
-file_list <- list.files(path = "I:/Elements Drive/Sensorimotor Microscopy/Live/", pattern = "_tracked.txt$", recursive = TRUE)
+file_list <- list.files(path = "set here", pattern = "_tracked.txt$", recursive = TRUE)
 
 direction <- list()
 max_speed<- list()
@@ -25,7 +25,7 @@ p_name <- list()
 j <- 1
 
 for(fn in file_list){
-  filename <- paste0("I:/Elements Drive/Sensorimotor Microscopy/Live/",fn)
+  filename <- paste0("set here ",fn)
   if(file.info(filename)$size == 0) { next } 
   lines <- readLines(filename)
 
