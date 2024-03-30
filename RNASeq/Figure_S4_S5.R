@@ -49,11 +49,9 @@ plotTPMs <- function(dftemp, contrast_name){
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1), axis.title.x = element_blank()) 
 }
 
-full <- read.table("coding/featurecounts_9/results_full.tsv")
+full<- read.table("featurecounts/featurecounts_24/results_full.tsv")
 goi <- rownames(full[full$symbol %in% c("PIEZO2","AVIL","POU4F1","TRPV2","MNX1","NKX6-1","CHAT", "SLC5A7", "SCN9A","SCN10A"),])
-
-
-experiment <- readRDS("coding/featurecounts_9/experiment_out.rds")
+experiment <- readRDS("featurecounts/featurecounts_24/experiment_out.rds")
 dds <- estimateSizeFactors(experiment)
 dds <- DESeq(experiment, betaPrior = FALSE)
 normcounts <- counts(dds, normalized=TRUE)
@@ -79,11 +77,11 @@ percentVar <- round(100 * summary(pca)$importance[2,])
 scores <- data.frame(variable.group,variable.celltype,variable.source, pca$x[,1:8])
 
 CairoSVG("FigureS4PCA.svg", width = 14, height = 10,pointsize = 16)
-print(qplot(x=PC1, y=PC2, data=scores, colour=variable.celltype, shape=variable.source) +
+print(qplot(x=PC1, y=PC2, data=scores, colour=variable.group, shape=variable.source) +
         theme(legend.position="right") +  
         labs(colour="group", x=paste0("PC1 (", percentVar[1],"% of variance)"),
              y=paste0("PC2 (", percentVar[2],"% of variance)")) + geom_point(size=3, stroke = 2))+
-  scale_colour_manual(values=c("violetred","slateblue","green","red","blue","black"))+
+  scale_colour_manual(values=c("violetred","slateblue","green","red","blue","black","orange","grey"))+
   scale_shape_manual(values=c("triangle", "plus", "circle"),) + theme_bw()+
   labs(color="Cell type", shape = "Tissue origin")  + theme_cowplot(font_size = 24)
 dev.off()
@@ -100,7 +98,7 @@ df <- as.data.frame(colData(dds)[,c("group")])
 rownames(df) <- paste(colData(dds)[,c("group")], vsd$track, sep = " - " )
 colnames(df) <- c("Group")
 celltype <- c("black", "grey40", "green", "darkgreen", "orange", "red", "hotpink","magenta")
-names(celltype) <- c("aMN", "aMNsc", "Crick-MN-d21", "Crick-MN-d35", "Exeter-MN", "iPSC-MN", "Ulm-MN-d21", "Ulm-MN-d42")
+names(celltype) <- c("aMN", "aMNsc", "UCL-MN-d21", "UCL-MN-d35", "Exeter-MN", "iPSC-MN", "Ulm-MN-d21", "Ulm-MN-d42")
 anno.colors <- list(celltype)
 names(anno.colors) <- c("Group")
 colors <- colorRampPalette( brewer.pal(9, "Oranges") )(255)
@@ -111,6 +109,7 @@ pheatmap(mat, annotation_col=df, scale = "row", annotation_colors = anno.colors,
 dev.off()
 
 ###### SAMPLE DISTANCE MATRIX##########
+colors <- colorRampPalette( rev(brewer.pal(9, "Oranges" )) )(255)
 sampleDists <- dist(t(assay(vsd)))
 sampleDistMatrix <- as.matrix( sampleDists )
 rownames(sampleDistMatrix) <- colData(vsd)[,c("group")]
@@ -144,7 +143,7 @@ print(p1)
 dev.off()
 
 ###### TPM COMPARISON - OTHER #####
-experiment <- readRDS("coding/featurecounts_10/experiment_out.rds")
+experiment<- readRDS("featurecounts/featurecounts_10/experiment_out.rds")
 dds <- estimateSizeFactors(experiment)
 dds <- DESeq(experiment, betaPrior = FALSE)
 normcounts <- counts(dds, normalized=TRUE)
@@ -158,8 +157,8 @@ geneplot <- function(genes, legend=TRUE, plottitle=""){
   goi = rownames(goi[match(genes, goi$symbol),])
   tpmtable <- makeTPMtable(goi, normcounts, colData(dds), "group")
   tpmtable$track
-  tpmtable$group2 <- c("Oxford","Oxford","Oxford","Oxford","Oxford","Oxford","Oxford","Oxford", "Ulm.d42", "Ulm.d42", "Exeter", "Exeter", "Crick.d35", "Crick.d35")
-  tpmtable$contrast <- c(" This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy", "Others", "Others", "Others", "Others", "Others", "Others")
+  tpmtable$group2 <- c("Ulm.d42", "Ulm.d42", "Exeter", "Exeter", "UCL.d35", "UCL.d35","Oxford(CTR)","Oxford(CTR)","Oxford(CTR)","Oxford(C9)","Oxford(C9)","Oxford(C9)")
+  tpmtable$contrast <- c("Others", "Others", "Others", "Others", "Others", "Others"," This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy"," This\nStudy")
   p1 <- tpmtable %>% 
     gather(key = "var", value="value", -contrast, -track, -group2) %>% 
     mutate(var = factor(var, levels=unique(var))) %>%
