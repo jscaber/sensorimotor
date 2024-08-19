@@ -1,10 +1,6 @@
 ##############################################################################
 #
-#   MRC FGU CGAT
-#
-#   $Id$
-#
-#   Copyright (C) 2009 Andreas Heger
+#   Copyright (C) 2024 Jakub Scaber
 #
 #   This program is free software; you can redistribute it and/or
 #   modify it under the terms of the GNU General Public License
@@ -24,7 +20,7 @@
 Pipeline template
 ===========================
 
-:Author: Andreas Heger
+:Author: Jakub Scaber
 :Release: $Id$
 :Date: |today|
 :Tags: Python
